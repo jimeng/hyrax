@@ -1,5 +1,27 @@
 module Hyrax
   module Workflow
+    # @abstract A notification that happens when a state transition occurs. Subclass AbstractNotification to create a notification.
+    # @example
+    #   module Hyrax
+    #     module Workflow
+    #       class LocalApprovedNotification < AbstractNotification
+    #         private
+    #
+    #           def subject
+    #             "Deposit #{title} has been approved"
+    #           end
+    #
+    #           def message
+    #             "#{title} (#{link_to work_id, document_path}) has been approved by #{user.display_name}  #{comment}"
+    #           end
+    #
+    #           # Add the user who initiatied this action to the list of users being notified
+    #           def users_to_notify
+    #             super << user
+    #           end
+    #       end
+    #     end
+    #   end
     class AbstractNotification
       include ActionView::Helpers::UrlHelper
 
@@ -9,6 +31,10 @@ module Hyrax
 
       attr_reader :work_id, :title, :comment, :user, :recipients
 
+      # @param [Sipity::Entity] entity - the Sipity::Entity that is a proxy for the relevant Hyrax work
+      # @param [#comment] comment - the comment associated with the action being taken, could be a Sipity::Comment, or anything that responds to a #comment method
+      # @param [Hyrax::User] user - the user who has performed the relevant action
+      # @param [Hash] recipients - a hash with keys "to" and (optionally) "cc", each of which contains an Array of Users to notify
       def initialize(entity, comment, user, recipients)
         @work_id = entity.proxy_for_global_id.sub(/.*\//, '')
         @title = entity.proxy_for.title.first
