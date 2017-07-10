@@ -36,7 +36,7 @@ en:
         new: "Create batch of works"
       cancel: "Cancel"
       collection:
-        new: "New Collection"
+        new: "Create New Collection"
       delete: "Delete"
       edit: "Edit"
       work:
@@ -344,12 +344,17 @@ en:
         title: "Add to collection"
         update: "Update Collection"
     collections:
+      edit:
+        header: "Edit Collection: %{title}"
       form:
         tabs:
           description: "Description"
           sharing:     "Sharing"
           visibility:  "Visibility"
+      new:
+        header: New Collection
       search_form:
+        button_label: Go
         label: "Search Collection %{title}"
         placeholder: "Search Collection"
       show:
